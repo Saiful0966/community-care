@@ -35,8 +35,8 @@ const Footer = () => {
 
               {/* Description */}
               <p className="text-emerald-100/80 text-sm leading-relaxed mb-6 max-w-sm">
-                Building stronger communities through kindness, collaboration
-                and action.
+                Building stronger communities through kindness, <br />
+                collaboration and action.
               </p>
 
               {/* Social icons (SVG) */}
