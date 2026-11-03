@@ -98,29 +98,32 @@ const Navbar = () => {
           {/* Right Side User Login & Signup */}
           <div className="flex items-center gap-4">
             {isPending ? (
+
               /* Loading state to prevent flickering */
+              
               <div className="w-28 h-9 bg-gray-100 animate-pulse rounded-full"></div>
             ) : user ? (
               <Popover>
-                <PopoverTrigger asChild>
-                  <div className="flex items-center gap-3 cursor-pointer">
-                    {/* My Profile Button  */}
-                    <div className="flex items-center gap-2 border border-emerald-200 text-emerald-800 hover:bg-emerald-50 hover:text-emerald-700 rounded-full px-4 py-1.5 text-sm font-medium transition">
-                      <User size={16} />
-                      <span>My Profile</span>
-                    </div>
+                 <PopoverTrigger>
+                 <div className="flex items-center gap-3 cursor-pointer">
+                     {/* My Profile Button  */}
+                     <div className="flex items-center gap-2 border border-emerald-200 text-emerald-800 hover:bg-emerald-50 hover:text-emerald-700 rounded-full px-4 py-1.5 text-sm font-medium transition">
+                     <User size={16} />
+                       <span>My Profile</span>
+                     </div>
 
-                    {/* Avatar */}
-                    <div className="rounded-full ring-offset-2 hover:ring-2 hover:ring-emerald-500 transition flex items-center">
-                      <Avatar>
-                        <AvatarImage referrerPolicy="no-referrer" src={user?.image || ""} />
-                        <AvatarFallback className="bg-emerald-100 text-emerald-800 font-bold">
-                          {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                  </div>
-                </PopoverTrigger>
+                     {/* Avatar */}
+                     <div className="rounded-full ring-offset-2 hover:ring-2 hover:ring-emerald-500 transition flex items-center">
+                       <Avatar>
+                     <AvatarImage referrerPolicy="no-referrer" src={user?.image || ""} />
+                         <AvatarFallback className="bg-emerald-100 text-emerald-800 font-bold">
+                           {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                         </AvatarFallback>
+                       </Avatar>
+                     </div>
+                   </div>
+                 </PopoverTrigger>
+              
 
                 <PopoverContent className="w-64 p-4 shadow-xl rounded-2xl border border-gray-100 bg-white" align="end">
                   <PopoverHeader className="space-y-3 text-center flex flex-col items-center">
@@ -197,3 +200,9 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+
+
+ 
