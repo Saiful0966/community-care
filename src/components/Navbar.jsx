@@ -1,9 +1,10 @@
-
+ 
 'use client';
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { PlusCircle, Settings, CalendarCheck, LogOut } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { PlusCircle, Settings, CalendarCheck, LogOut, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -15,10 +16,10 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
-  const { data: session } = authClient.useSession();
+  const pathname = usePathname();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
   const handleSignOut = () => {
@@ -54,43 +55,70 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className="text-emerald-700 font-semibold border-b-2 border-emerald-600 pb-1"
+              className={`font-medium transition pb-1 ${
+                pathname === "/"
+                  ? "text-emerald-700 font-semibold border-b-2 border-emerald-600"
+                  : "text-gray-600 hover:text-emerald-700"
+              }`}
             >
               Home
             </Link>
             <Link
               href="/upcoming-events"
-              className="text-gray-600 hover:text-emerald-700 font-medium transition"
+              className={`font-medium transition pb-1 ${
+                pathname === "/upcoming-events"
+                  ? "text-emerald-700 font-semibold border-b-2 border-emerald-600"
+                  : "text-gray-600 hover:text-emerald-700"
+              }`}
             >
               Upcoming Events
             </Link>
             <Link
               href="/about"
-              className="text-gray-600 hover:text-emerald-700 font-medium transition"
+              className={`font-medium transition pb-1 ${
+                pathname === "/about"
+                  ? "text-emerald-700 font-semibold border-b-2 border-emerald-600"
+                  : "text-gray-600 hover:text-emerald-700"
+              }`}
             >
               About
             </Link>
             <Link
               href="/contact"
-              className="text-gray-600 hover:text-emerald-700 font-medium transition"
+              className={`font-medium transition pb-1 ${
+                pathname === "/contact"
+                  ? "text-emerald-700 font-semibold border-b-2 border-emerald-600"
+                  : "text-gray-600 hover:text-emerald-700"
+              }`}
             >
               Contact
             </Link>
           </div>
 
-          {/* Right Side: User Profile or Login/Signup */}
+          {/* Right Side User Login & Signup */}
           <div className="flex items-center gap-4">
-            {user ? (
+            {isPending ? (
+              /* Loading state to prevent flickering */
+              <div className="w-28 h-9 bg-gray-100 animate-pulse rounded-full"></div>
+            ) : user ? (
               <Popover>
-                {/* কোন asChild ছাড়া সরাসরি div ব্যবহার করা হয়েছে */}
-                <PopoverTrigger>
-                  <div className="cursor-pointer rounded-full ring-offset-2 hover:ring-2 hover:ring-emerald-500 transition flex items-center">
-                    <Avatar>
-                      <AvatarImage referrerPolicy="no-referrer" src={user?.image || ""} />
-                      <AvatarFallback className="bg-emerald-100 text-emerald-800 font-bold">
-                        {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
-                      </AvatarFallback>
-                    </Avatar>
+                <PopoverTrigger asChild>
+                  <div className="flex items-center gap-3 cursor-pointer">
+                    {/* My Profile Button  */}
+                    <div className="flex items-center gap-2 border border-emerald-200 text-emerald-800 hover:bg-emerald-50 hover:text-emerald-700 rounded-full px-4 py-1.5 text-sm font-medium transition">
+                      <User size={16} />
+                      <span>My Profile</span>
+                    </div>
+
+                    {/* Avatar */}
+                    <div className="rounded-full ring-offset-2 hover:ring-2 hover:ring-emerald-500 transition flex items-center">
+                      <Avatar>
+                        <AvatarImage referrerPolicy="no-referrer" src={user?.image || ""} />
+                        <AvatarFallback className="bg-emerald-100 text-emerald-800 font-bold">
+                          {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
                   </div>
                 </PopoverTrigger>
 
@@ -106,37 +134,37 @@ const Navbar = () => {
                     </div>
 
                     <div className="flex flex-col gap-2.5 pt-1 w-full">
-                      <Button asChild variant="outline" className="w-full justify-start px-4 py-2.5 border-gray-200 hover:bg-emerald-50 hover:text-emerald-700">
-                        <Link href="/create-event" className="flex items-center gap-4 w-full">
-                          <PlusCircle size={18} className="shrink-0" />
-                          <span className="text-sm font-medium">Create Event</span>
-                        </Link>
-                      </Button>
-
-                      <Button asChild variant="outline" className="w-full justify-start px-4 py-2.5 border-gray-200 hover:bg-emerald-50 hover:text-emerald-700">
-                        <Link href="/manage-events" className="flex items-center gap-4 w-full">
-                          <Settings size={18} className="shrink-0" />
-                          <span className="text-sm font-medium">Manage Events</span>
-                        </Link>
-                      </Button>
-
-                      <Button asChild variant="outline" className="w-full justify-start px-4 py-2.5 border-gray-200 hover:bg-emerald-50 hover:text-emerald-700">
-                        <Link href="/events/joined" className="flex items-center gap-4 w-full">
-                          <CalendarCheck size={18} className="shrink-0" />
-                          <span className="text-sm font-medium">Joined Events</span>
-                        </Link>
-                      </Button>
-
-                      <Button 
-                        onClick={handleSignOut} 
-                        variant="destructive" 
-                        className="w-full justify-start px-4 py-2.5 mt-2 bg-red-50 text-red-600 hover:bg-red-100 shadow-none border border-red-200"
+                      <Link 
+                        href="/create-event" 
+                        className="flex items-center gap-4 w-full px-4 py-2.5 rounded-lg border border-gray-200 text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition"
                       >
-                        <div className="flex items-center gap-4 w-full">
-                          <LogOut size={18} className="shrink-0" />
-                          <span className="text-sm font-medium">SignOut</span>
-                        </div>
-                      </Button>
+                        <PlusCircle size={18} className="shrink-0" />
+                        <span className="text-sm font-medium">Create Event</span>
+                      </Link>
+
+                      <Link 
+                        href="/manage-events" 
+                        className="flex items-center gap-4 w-full px-4 py-2.5 rounded-lg border border-gray-200 text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition"
+                      >
+                        <Settings size={18} className="shrink-0" />
+                        <span className="text-sm font-medium">Manage Events</span>
+                      </Link>
+
+                      <Link 
+                        href="/events/joined" 
+                        className="flex items-center gap-4 w-full px-4 py-2.5 rounded-lg border border-gray-200 text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition"
+                      >
+                        <CalendarCheck size={18} className="shrink-0" />
+                        <span className="text-sm font-medium">Joined Events</span>
+                      </Link>
+
+                      <button 
+                        onClick={handleSignOut} 
+                        className="flex items-center gap-4 w-full px-4 py-2.5 mt-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 transition text-left cursor-pointer"
+                      >
+                        <LogOut size={18} className="shrink-0" />
+                        <span className="text-sm font-medium">Logout</span>
+                      </button>
                     </div>
                   </PopoverHeader>
                 </PopoverContent>
