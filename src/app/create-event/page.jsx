@@ -81,7 +81,8 @@ const CreateEventPage = () => {
         setDescription("");
 
         setTimeout(() => {
-          router.push("/upcoming-events");
+          // router.push("/upcoming-events");
+          router.push("/manage-events");
         }, 1000);
 
       } else {

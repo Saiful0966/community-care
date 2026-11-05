@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Calendar as CalendarIcon, Search, MapPin, Edit, Trash2, Eye, Plus, Users, Tag } from 'lucide-react';
  
 import EditManageEvents from '@/components/EditManageEvents';
+import DeleteEvent from '@/components/DeleteEvent';
 
 const ManageEventspage = async () => {
     const session = await auth.api.getSession({
@@ -193,9 +194,8 @@ const ManageEventspage = async () => {
                             
                                                             <EditManageEvents event={event} />
 
-                                                            <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Delete">
-                                                                <Trash2 size={16} />
-                                                            </button>
+                                                             {/* <DeleteEvent id={id}/> */}
+                                                             <DeleteEvent id={event._id} />
                                                         </div>
                                                     </td>
                                                 </tr>
