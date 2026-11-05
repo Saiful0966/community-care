@@ -4,6 +4,8 @@ import { headers } from 'next/headers';
 import React from 'react';
 import Link from 'next/link';
 import { Calendar as CalendarIcon, Search, MapPin, Edit, Trash2, Eye, Plus, Users, Tag } from 'lucide-react';
+ 
+import EditManageEvents from '@/components/EditManageEvents';
 
 const ManageEventspage = async () => {
     const session = await auth.api.getSession({
@@ -126,7 +128,7 @@ const ManageEventspage = async () => {
                                             <tr className="border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50/50">
                                                 <th className="py-4 px-6">Event</th>
                                                 <th className="py-4 px-6">Category</th>
-                                                <th className="py-4 px-6">Date & Time</th>
+                                                <th className="py-4 px-6">Date </th>
                                                 <th className="py-4 px-6">Participants</th>
                                                 <th className="py-4 px-6 text-center">Actions</th>
                                             </tr>
@@ -163,7 +165,8 @@ const ManageEventspage = async () => {
                                                     <td className="py-4 px-6 text-gray-600 text-xs">
                                                         <div className="flex items-center gap-1.5">
                                                             <CalendarIcon size={13} className="text-emerald-600" />
-                                                            {event.eventDate}
+                                                            {/* {event.eventDate} */}
+                                                            {event.eventDate ? event.eventDate.split("-").reverse().join("/") : ""}
                                                         </div>
                                                     </td>
 
@@ -176,14 +179,20 @@ const ManageEventspage = async () => {
                                                     </td>
 
                                                     {/* Actions */}
+
+
                                                     <td className="py-4 px-6">
                                                         <div className="flex items-center justify-center gap-1.5">
-                                                            <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg transition" title="View">
+                                                            <Link 
+                                                                href={`/upcoming-events/${event._id}`} 
+                                                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg transition inline-flex items-center" 
+                                                                title="View"
+                                                            >
                                                                 <Eye size={16} />
-                                                            </button>
-                                                            <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
-                                                                <Edit size={16} />
-                                                            </button>
+                                                            </Link>
+                            
+                                                            <EditManageEvents event={event} />
+
                                                             <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Delete">
                                                                 <Trash2 size={16} />
                                                             </button>
