@@ -1,5 +1,6 @@
 
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -25,7 +26,15 @@ const UpcomingEventspage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Backend theke events fetch kora hocche
+  // Date format
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
+  // Backend theke events api fetch kora hocche
   useEffect(() => {
     fetch("http://localhost:5000/upcoming-events")
       .then((res) => res.json())
@@ -64,7 +73,7 @@ const UpcomingEventspage = () => {
   return (
     <div className="min-h-screen bg-gray-50/50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Banner &  Header Section */}
+        {/* Banner & Header Section */}
         <div
           className="rounded-3xl shadow-sm border border-emerald-200/60 p-6 md:p-8 mb-8 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden"
           style={{ backgroundColor: "#c6ebe1" }}
@@ -74,9 +83,11 @@ const UpcomingEventspage = () => {
               <Sparkles size={14} className="text-emerald-700" />
               Future Community Drives
             </div>
+
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
               Upcoming Events
             </h1>
+
             <p className="text-gray-700 text-sm md:text-base leading-relaxed max-w-2xl font-medium">
               Be part of verified volunteer initiatives, scheduled for upcoming
               dates. <br />
@@ -122,6 +133,7 @@ const UpcomingEventspage = () => {
         <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200/80 p-3 flex items-center gap-3 flex-1 w-full">
             <Search size={18} className="text-gray-400 ml-2" />
+
             <input
               type="text"
               value={searchQuery}
@@ -140,7 +152,7 @@ const UpcomingEventspage = () => {
           </Link>
         </div>
 
-        {/* Card */}
+        {/* Event Cards */}
         {filteredEvents.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm">
             <p className="text-gray-500 text-sm">
@@ -155,7 +167,7 @@ const UpcomingEventspage = () => {
                 className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition relative"
               >
                 <div>
-                  {/* Image container */}
+                  {/* Image */}
                   <div className="relative w-full h-52 bg-gray-100">
                     <img
                       src={event.imageUrl}
@@ -169,23 +181,32 @@ const UpcomingEventspage = () => {
                     </span>
                   </div>
 
+                  {/* Card Content */}
                   <div className="p-5">
                     <h3 className="text-lg font-bold text-gray-900 mt-1 mb-1">
                       {event.title}
                     </h3>
+
+                    {/* Location */}
                     <p className="text-sm text-gray-500 mb-2 flex items-center gap-1">
-                      <MapPin size={14} className="text-gray-400" />{" "}
+                      <MapPin size={14} className="text-gray-400" />
                       {event.location}
                     </p>
+
+                    {/* Date  */}
                     <p className="text-xs text-gray-400 mb-4 flex items-center gap-1">
-                      <Calendar size={13} className="text-gray-400" />{" "}
-                      {event.eventDate}
+                      <Calendar size={13} className="text-gray-400" />
+                      {formatDate(event.eventDate)}
                     </p>
+
+                    {/* Description */}
                     <p className="text-sm text-gray-600 line-clamp-2 mb-4">
                       {event.description}
                     </p>
                   </div>
                 </div>
+
+                {/* Details Button */}
                 <div className="p-5 pt-0">
                   <Link href={`/upcoming-events/${event._id}`}>
                     <button className="w-full bg-[#0d826a] text-white py-2.5 rounded-xl text-sm font-medium hover:bg-[#0b6b57] transition">
@@ -201,7 +222,5 @@ const UpcomingEventspage = () => {
     </div>
   );
 };
-
-
 
 export default UpcomingEventspage;

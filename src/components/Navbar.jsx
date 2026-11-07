@@ -154,7 +154,7 @@ const Navbar = () => {
                       </Link>
 
                       <Link 
-                        href="/events/joined" 
+                        href="/joined-events" 
                         className="flex items-center gap-4 w-full px-4 py-2.5 rounded-lg border border-gray-200 text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition"
                       >
                         <CalendarCheck size={18} className="shrink-0" />

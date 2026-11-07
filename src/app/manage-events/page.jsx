@@ -27,7 +27,7 @@ const ManageEventspage = async () => {
         }
     }
 
-    // Dynamic current date and calendar
+    // date and calendar
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth(); 
@@ -55,7 +55,7 @@ const ManageEventspage = async () => {
                 <div className="relative rounded-3xl overflow-hidden shadow-sm border border-emerald-100 bg-emerald-50">
                     <div className="relative h-44 sm:h-52 w-full">
                         <img 
-                            src="/si-banner.png" 
+                            src="/banner-img-3.png" 
                             alt="Manage Events Banner" 
                             className="w-full h-full object-cover"
                         />
@@ -194,7 +194,6 @@ const ManageEventspage = async () => {
                             
                                                             <EditManageEvents event={event} />
 
-                                                             {/* <DeleteEvent id={id}/> */}
                                                              <DeleteEvent id={event._id} />
                                                         </div>
                                                     </td>
@@ -210,7 +209,7 @@ const ManageEventspage = async () => {
                     {/* Right Calendar  */}
                     <div className="space-y-6">
 
-                        {/* Dynamic Calendar */}
+                        {/*  Calendar */}
                         <div className="bg-white p-6 rounded-3xl shadow-sm border border-emerald-100">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="font-bold text-gray-900 flex items-center gap-2 text-sm">
