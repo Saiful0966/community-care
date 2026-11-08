@@ -48,6 +48,27 @@ export default function LoginPage() {
     }
   };
 
+    // google signup
+    const handleGoogleLogin = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
+
+
+  
+    // github login
+    const handleGithubLogin = async () => {
+    await authClient.signIn.social({
+      provider: "github",
+      callbackURL: "/",
+    });
+  };
+
+
+
+
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
       <Toaster position="top-right" reverseOrder={false} />
@@ -154,7 +175,7 @@ export default function LoginPage() {
 
         {/* Social Logins */}
         <div className="space-y-3.5">
-          <button
+          <button onClick={handleGoogleLogin }
             type="button"
             className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-700 font-semibold text-sm shadow-sm"
           >
@@ -162,7 +183,7 @@ export default function LoginPage() {
             <span>Sign in with Google</span>
           </button>
 
-          <button
+          <button onClick={handleGithubLogin}
             type="button"
             className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-700 font-semibold text-sm shadow-sm"
           >
