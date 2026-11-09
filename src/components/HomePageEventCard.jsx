@@ -8,7 +8,7 @@ const HomePageEventCard = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/upcoming-events")
+    fetch("http://localhost:5000/recent-upcoming-events")
       .then((res) => res.json())
       .then((data) => {
         setEvents(data);
@@ -58,6 +58,7 @@ const HomePageEventCard = () => {
               className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition"
             >
               {/* Event Image */}
+              
               <img
                 src={event.imageUrl}
                 alt={event.title}

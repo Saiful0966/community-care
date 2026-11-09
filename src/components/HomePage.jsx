@@ -34,10 +34,11 @@ const HomePage = () => {
           {/* Buttons */}
           <div className="flex flex-wrap items-center gap-4">
             <Link
-              href="/events"
+              href="/upcoming-events
+"
               className="flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white font-medium px-6 py-3 rounded-full transition shadow-sm text-sm"
             >
-              Explore Events <ArrowRight size={18} />
+              Upcoming Events  <ArrowRight size={18} />
             </Link>
 
             <Link

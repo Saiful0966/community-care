@@ -73,7 +73,8 @@ const Navbar = () => {
             >
               Upcoming Events
             </Link>
-            <Link
+
+            {/* <Link
               href="/about"
               className={`font-medium transition pb-1 ${
                 pathname === "/about"
@@ -92,7 +93,8 @@ const Navbar = () => {
               }`}
             >
               Contact
-            </Link>
+            </Link> */}
+
           </div>
 
           {/* Right Side User Login & Signup */}
