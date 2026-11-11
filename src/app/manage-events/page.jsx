@@ -33,8 +33,7 @@ const ManageEventspage = async () => {
   let events = [];
   if (userEmail) {
     try {
-      const res = await fetch(
-        `http://localhost:5000/manage-events/${userEmail}`,{
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/manage-events/${userEmail}`,{
        headers: {
        'Content-Type': 'application/json',
        'authorization': `Bearer ${jwtToken?.token}`, 

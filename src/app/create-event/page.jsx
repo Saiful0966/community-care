@@ -62,7 +62,7 @@ const CreateEventPage = () => {
 
     try {
       const token = await getTokenFromClient();
-      const response = await fetch("http://localhost:5000/add-events", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-events`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,7 +22,7 @@ const DeleteEvent = ({ id }) => {
     try {
       const token = await getTokenFromClient();
       
-      const res = await fetch(`http://localhost:5000/manage-events/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/manage-events/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

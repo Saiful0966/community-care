@@ -42,7 +42,7 @@ const UpcomingEventspage = () => {
         const { data } = await authClient.token();
         const token = data?.token;
 
-        const res = await fetch("http://localhost:5000/upcoming-events", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upcoming-events`, {
           headers: {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`, 

@@ -41,7 +41,7 @@ export default  function Detailspage({ params }) {
     async function fetchEventDetail() {
       try {
         const token = await getTokenFromClient();
-        const res = await fetch(`http://localhost:5000/upcoming-events/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upcoming-events/${id}`, {
           headers: {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`,
@@ -75,8 +75,7 @@ export default  function Detailspage({ params }) {
 
     try {
       const token = await getTokenFromClient();
-      const res = await fetch(
-        `http://localhost:5000/upcoming-events/join/${id}`,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upcoming-events/join/${id}`,
         {
           method: "PATCH",
           headers: {

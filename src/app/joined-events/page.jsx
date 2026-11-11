@@ -30,7 +30,7 @@ export default function JoinedEventsPage() {
       try {
         const token = await getTokenFromClient();
 
-        const res = await fetch(`http://localhost:5000/joined-events/${user.email}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined-events/${user.email}`, {
           headers: {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`,

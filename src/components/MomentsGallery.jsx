@@ -10,7 +10,7 @@ export default function GallerySection() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/gallery-events")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/gallery-events`)
       .then((res) => res.json())
       .then((data) => {
         setEvents(data);
