@@ -9,17 +9,25 @@ import Image from "next/image";
 export default function GallerySection() {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/gallery-events`)
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-
+ // GallerySection.
+useEffect(() => {
+  async function fetchGallery() {
+    try {
+      const token = await getTokenFromClient();
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/gallery-events`, {
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { "authorization": `Bearer ${token}` }),
+        },
       });
-  }, []);
+      const data = await res.json();
+      setEvents(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  fetchGallery();
+}, []);
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
