@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 import {
   Sparkles,
   Search,
@@ -34,15 +35,29 @@ const UpcomingEventspage = () => {
     return `${day}/${month}/${year}`;
   };
 
-  // Backend theke events api fetch kora hocche
+   // verify token
   useEffect(() => {
-    fetch("http://localhost:5000/upcoming-events")
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data);
-      })
-      .catch((err) => console.error("Error fetching events:", err));
+    async function fetchEvents() {
+      try {
+        const { data } = await authClient.token();
+        const token = data?.token;
+
+        const res = await fetch("http://localhost:5000/upcoming-events", {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`, 
+          },
+        });
+        const result = await res.json();
+        setEvents(result);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    }
+
+    fetchEvents();
   }, []);
+
 
   // Categories list with icons
   const categories = [

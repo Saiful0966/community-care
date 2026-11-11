@@ -3,16 +3,30 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const HomePageEventCard = () => {
   const [events, setEvents] = useState([]);
-
+  
   useEffect(() => {
-    fetch("http://localhost:5000/recent-upcoming-events")
-      .then((res) => res.json())
-      .then((data) => {
+    async function fetchRecentEvents() {
+      try {
+        const token = await getTokenFromClient();
+
+        const res = await fetch("http://localhost:5000/recent-upcoming-events", {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`, 
+          },
+        });
+        const data = await res.json();
         setEvents(data);
-      });
+      } catch (error) {
+        console.error("Error fetching recent events:", error);
+      }
+    }
+
+    fetchRecentEvents();
   }, []);
 
   // Date 
@@ -104,3 +118,6 @@ const HomePageEventCard = () => {
 };
 
 export default HomePageEventCard;
+
+
+

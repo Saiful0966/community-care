@@ -1,10 +1,10 @@
 
-
 "use client";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client"; 
+import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient"; 
 import {
   Sparkles,
   MapPin,
@@ -61,10 +61,12 @@ const CreateEventPage = () => {
     };
 
     try {
+      const token = await getTokenFromClient();
       const response = await fetch("http://localhost:5000/add-events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(eventData),
       });

@@ -10,6 +10,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 import {
   Dialog,
@@ -65,12 +66,14 @@ const EditManageEvents = ({ event }) => {
     };
 
     try {
+      const token = await getTokenFromClient();
       const response = await fetch(
         `http://localhost:5000/manage-events/${event._id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
           },
           body: JSON.stringify(eventData),
         },

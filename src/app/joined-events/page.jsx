@@ -1,9 +1,10 @@
 
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
+
 import {
   CalendarCheck,
   Users,
@@ -25,15 +26,25 @@ export default function JoinedEventsPage() {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:5000/joined-events/${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
+   async function fetchJoinedEvents() {
+      try {
+        const token = await getTokenFromClient();
+
+        const res = await fetch(`http://localhost:5000/joined-events/${user.email}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
         console.log(data);
         setEvents(data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
-      });
+      }
+    }
+
+    fetchJoinedEvents();
   }, [user?.email]);
 
   // Date format

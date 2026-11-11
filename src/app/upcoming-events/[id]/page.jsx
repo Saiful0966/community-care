@@ -5,7 +5,7 @@ import React, { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import toast, { Toaster } from "react-hot-toast";
-
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import {
   ArrowLeft,
   MapPin,
@@ -16,7 +16,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-export default function Detailspage({ params }) {
+
+export default  function Detailspage({ params }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
 
@@ -25,6 +26,7 @@ export default function Detailspage({ params }) {
 
   const [eventData, setEventData] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   // Date function
   const formatDate = (dateString) => {
@@ -36,16 +38,25 @@ export default function Detailspage({ params }) {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/upcoming-events/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    async function fetchEventDetail() {
+      try {
+        const token = await getTokenFromClient();
+        const res = await fetch(`http://localhost:5000/upcoming-events/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
         setEventData(data);
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching event:", err);
         setLoading(false);
-      });
+      }
+    }
+
+    fetchEventDetail();
   }, [id]);
 
   const handleJoinedEvent = async (e) => {
@@ -63,12 +74,14 @@ export default function Detailspage({ params }) {
     };
 
     try {
+      const token = await getTokenFromClient();
       const res = await fetch(
         `http://localhost:5000/upcoming-events/join/${id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify(volunteerData),
         },
@@ -109,9 +122,9 @@ export default function Detailspage({ params }) {
   }
 
   const guidelines = [
-    "Arrive 15 minutes before the schedule.",
-    "Wear comfortable clothes suitable for physical work.",
-    "Bring water bottle and necessary items if requested.",
+    "Please join at least 30 minutes before the scheduled session begins.",
+    "Listen to the instructions from the organizers carefully and follow them.",
+    "Complete your tasks on time and within the rules.",
   ];
 
   return (

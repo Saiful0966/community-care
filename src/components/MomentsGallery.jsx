@@ -13,11 +13,11 @@ export default function GallerySection() {
     fetch("http://localhost:5000/gallery-events")
       .then((res) => res.json())
       .then((data) => {
-        console.log("Gallery Events:", data);
         setEvents(data);
       })
       .catch((error) => {
         console.error("Error:", error);
+
       });
   }, []);
 
@@ -82,3 +82,5 @@ export default function GallerySection() {
     </section>
   );
 }
+
+

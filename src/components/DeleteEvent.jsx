@@ -15,12 +15,19 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const DeleteEvent = ({ id }) => {
   const handleDelete = async () => {
     try {
+      const token = await getTokenFromClient();
+      
       const res = await fetch(`http://localhost:5000/manage-events/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": `Bearer ${token}`,
+        },
       });
       const data = await res.json();
 
