@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { authClient } from "@/lib/auth-client";
+// import { authClient } from "@/lib/auth-client";
 import {
   Sparkles,
   Search,
@@ -35,27 +35,52 @@ const UpcomingEventspage = () => {
     return `${day}/${month}/${year}`;
   };
 
-   // verify token
+   
+
+  // useEffect(() => {
+  //   async function fetchEvents() {
+  //     try {
+  //       const { data } = await authClient.token();
+  //       const token = data?.token;
+
+  //       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upcoming-events`, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "authorization": `Bearer ${token}`, 
+  //         },
+  //       });
+  //       const result = await res.json();
+  //       setEvents(result);
+  //     } catch (err) {
+  //       console.error("Error fetching events:", err);
+  //     }
+  //   }
+
+  //   fetchEvents();
+  // }, []);
+
   useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const { data } = await authClient.token();
-        const token = data?.token;
+  async function fetchEvents() {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/upcoming-events`
+      );
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upcoming-events`, {
-          headers: {
-            "Content-Type": "application/json",
-            "authorization": `Bearer ${token}`, 
-          },
-        });
-        const result = await res.json();
+      const result = await res.json();
+
+      if (res.ok && Array.isArray(result)) {
         setEvents(result);
-      } catch (err) {
-        console.error("Error fetching events:", err);
+      } else {
+        console.error("Failed to fetch events:", result);
+        setEvents([]);
       }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      setEvents([]);
     }
+  }
 
-    fetchEvents();
+  fetchEvents();
   }, []);
 
 

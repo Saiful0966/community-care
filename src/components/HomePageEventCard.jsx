@@ -3,31 +3,58 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getTokenFromClient } from "@/lib/getTokenFromClient";
+// import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const HomePageEventCard = () => {
   const [events, setEvents] = useState([]);
   
+  // useEffect(() => {
+  //   async function fetchRecentEvents() {
+  //     try {
+  //       const token = await getTokenFromClient();
+
+  //       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recent-upcoming-events`, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "authorization": `Bearer ${token}`, 
+  //         },
+  //       });
+  //       const data = await res.json();
+  //       setEvents(data);
+  //     } catch (error) {
+  //       console.error("Error fetching recent events:", error);
+  //     }
+  //   }
+
+  //   fetchRecentEvents();
+  // }, []);
+
+
   useEffect(() => {
-    async function fetchRecentEvents() {
-      try {
-        const token = await getTokenFromClient();
+  async function fetchRecentEvents() {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/recent-upcoming-events`
+      );
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recent-upcoming-events`, {
-          headers: {
-            "Content-Type": "application/json",
-            "authorization": `Bearer ${token}`, 
-          },
-        });
-        const data = await res.json();
+      const data = await res.json();
+
+      if (res.ok && Array.isArray(data)) {
         setEvents(data);
-      } catch (error) {
-        console.error("Error fetching recent events:", error);
+      } else {
+        console.error("Failed to fetch events:", data);
+        setEvents([]);
       }
+    } catch (error) {
+      console.error("Error fetching recent events:", error);
+      setEvents([]);
     }
+  }
 
-    fetchRecentEvents();
+  fetchRecentEvents();
   }, []);
+
+
 
   // Date 
   const formatDate = (date) => {

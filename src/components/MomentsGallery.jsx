@@ -4,32 +4,57 @@
 import { useEffect, useState } from "react";
 import { ImageIcon, ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import { getTokenFromClient } from "@/lib/getTokenFromClient";
+// import Image from "next/image";
 
 export default function GallerySection() {
   const [events, setEvents] = useState([]);
 
  // GallerySection.
+// useEffect(() => {
+//   async function fetchGallery() {
+//     try {
+//       const token = await getTokenFromClient();
+//       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/gallery-events`, {
+//         headers: {
+//           "Content-Type": "application/json",
+//           ...(token && { "authorization": `Bearer ${token}`}),
+//         },
+//       });
+//       const data = await res.json();
+//       setEvents(data);
+//     } catch (error) {
+//       console.error("Error:", error);
+//     }
+//   }
+//   fetchGallery();
+// }, []);
+
+
+// GallerySection
 useEffect(() => {
   async function fetchGallery() {
     try {
-      const token = await getTokenFromClient();
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/gallery-events`, {
-        headers: {
-          "Content-Type": "application/json",
-          ...(token && { "authorization": `Bearer ${token}`}),
-        },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/gallery-events`
+      );
+
       const data = await res.json();
-      setEvents(data);
+
+      if (res.ok) {
+        setEvents(data);
+      } else {
+        console.error("Failed to fetch gallery:", data);
+        setEvents([]);
+      }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error fetching gallery:", error);
+      setEvents([]);
     }
   }
+
   fetchGallery();
 }, []);
-
+  
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
       {/* Header Section  */}
