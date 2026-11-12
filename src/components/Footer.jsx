@@ -122,7 +122,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/about"
+                    href="/"
                     className="text-emerald-100/80 hover:text-white transition"
                   >
                     About
@@ -130,7 +130,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/contact"
+                    href="/"
                     className="text-emerald-100/80 hover:text-white transition"
                   >
                     Contact
@@ -147,7 +147,7 @@ const Footer = () => {
               <ul className="space-y-2.5 text-sm">
                 <li>
                   <Link
-                    href="/help-center"
+                    href="/"
                     className="text-emerald-100/80 hover:text-white transition"
                   >
                     Help Center
@@ -155,7 +155,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/privacy-policy"
+                    href="/"
                     className="text-emerald-100/80 hover:text-white transition"
                   >
                     Privacy Policy
@@ -163,7 +163,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/terms-of-service"
+                    href="/"
                     className="text-emerald-100/80 hover:text-white transition"
                   >
                     Terms of Service

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ImageIcon, ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 export default function GallerySection() {
   const [events, setEvents] = useState([]);
@@ -17,7 +18,7 @@ useEffect(() => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/gallery-events`, {
         headers: {
           "Content-Type": "application/json",
-          ...(token && { "authorization": `Bearer ${token}` }),
+          ...(token && { "authorization": `Bearer ${token}`}),
         },
       });
       const data = await res.json();
